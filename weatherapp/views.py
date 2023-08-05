@@ -3,13 +3,14 @@ import requests
 from django.contrib import messages
 from .models import City
 from .forms import CityForm
-
+# import os
+from decouple import config
 
 
 def index(request):
 
 
-    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=9b9424fdcd1e3ad51287b8e4cd83c9e2'
+    url = config('API_URL')
     # city = 'Las Vegas'
     cities = City.objects.all().order_by('id')
 
@@ -28,7 +29,7 @@ def index(request):
     for city in cities:
 
         city_weather = requests.get(url.format(city)).json()  #request the API data and convert the JSON to Python data types
-        # print(city_weather,"kalathilakkam award")
+        print(city_weather,"kalathilakkam award")
         weather = {
             'city' : city,
             'temperature' : city_weather['main']['temp'],
